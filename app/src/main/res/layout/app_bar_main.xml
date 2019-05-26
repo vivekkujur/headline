@@ -9,7 +9,7 @@
     android:id="@+id/contentLv"
     android:focusableInTouchMode="true"
 
-    tools:context=".activity.MainActivity">
+    tools:context=".ui.home.MainActivity">
 
 
     <android.support.design.widget.AppBarLayout

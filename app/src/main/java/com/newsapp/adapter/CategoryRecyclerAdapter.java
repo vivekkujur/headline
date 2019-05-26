@@ -1,7 +1,6 @@
 package com.newsapp.adapter;
 
 import android.annotation.SuppressLint;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.newsapp.R;
-import com.newsapp.activity.MainActivity;
+import com.newsapp.ui.home.MainActivity;
 import com.newsapp.config.Setting;
 import com.squareup.picasso.Picasso;
 

@@ -1,4 +1,4 @@
-package com.newsapp.activity;
+package com.newsapp.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,23 +15,39 @@ import com.android.volley.VolleyError;
 import com.newsapp.R;
 import com.newsapp.adapter.CategoryRecyclerAdapter;
 import com.newsapp.adapter.SourceRecyclerAdapter;
+import com.newsapp.api.NewsApiService;
 import com.newsapp.api.RestGetCategoryApi;
 import com.newsapp.api.RestGetCategoryInterface;
+import com.newsapp.model.CategoryModel;
+import com.newsapp.root.App;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements RestGetCategoryInterface {
 
     @SuppressLint("StaticFieldLeak")
     private  static RecyclerView sourcerecycler,categoryRecycler;
     private  static LinearLayoutManager sourcelayoutManager, categoryLayoutManager;
-    private  static SourceRecyclerAdapter sourceRecyclerAdapter;
+    @Inject
+    SourceRecyclerAdapter sourceRecyclerAdapter;
+
     private  static CategoryRecyclerAdapter categoryRecyclerAdapter;
     private  static RestGetCategoryApi restGetCategoryApi;
 
 
+    List<String> repos;
 
 
     @Override
@@ -46,6 +63,45 @@ public class MainActivity extends AppCompatActivity implements RestGetCategoryIn
 
         init();
         initCatRecycler();
+
+        repos = new ArrayList<>();
+
+        HomeComponent homeComponent = DaggerHomeComponent.builder()
+                .myAdapterModule(new MyAdapterModule(repos))
+                .appComponent(((App) getApplication()).getAppComponent())
+                .build();
+        homeComponent.inject(this);
+
+        App  app = (App)getApplication();
+        NewsApiService newsAPIService = app.getAPIService();
+
+        newsAPIService.getCategoryList("abaa310d2b2741d3ad89784f4f296798","us")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                new Observer<CategoryModel> () {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CategoryModel  categoryModels) {
+                        System.out.println("data on next :");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }
+        );
+
+
 
         /*default first screen*/
         restGetCategoryApi.GetCategory("us");

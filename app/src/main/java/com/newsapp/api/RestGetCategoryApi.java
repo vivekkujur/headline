@@ -7,7 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.newsapp.config.Setting;
-import com.newsapp.utils.App;
+import com.newsapp.root.App;
 
 import org.json.JSONObject;
 

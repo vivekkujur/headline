@@ -7,15 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 
 import com.newsapp.R;
-import com.newsapp.activity.MainActivity;
+import com.newsapp.ui.home.MainActivity;
 import com.newsapp.activity.HeadlinesActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class SourceRecyclerAdapter extends RecyclerView.Adapter<SourceRecyclerAdapter.ViewHolder> {
 
@@ -25,6 +26,11 @@ public class SourceRecyclerAdapter extends RecyclerView.Adapter<SourceRecyclerAd
         this.activity = mainActivity;
         this.jsonObject= response;
     }
+    public  SourceRecyclerAdapter(List<String> dataset){
+
+    }
+
+
 
     @NonNull
     @Override
